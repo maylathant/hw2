@@ -55,7 +55,7 @@ int main(int argc, char* argv[]){
 
 	//Initalize problem statement
 	iniLaplace2D(f,u_in,u_out,N);
-	
+
 	Timer t;
     t.tic(); //Start timer
 
