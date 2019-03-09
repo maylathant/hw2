@@ -65,7 +65,7 @@ for(int i = 0;i<N;i++)
       for (i=0; i<N; i++){
         b[i] = i * PI;
       }
-      omp_unset_lock(&lockb); //Anthony Maylath Correction: Relase lock when writes are done
+      omp_unset_lock(&lockb); //Anthony Maylath Correction: Release lock when writes are done
       omp_set_lock(&locka);
       printf("Thread %d adding b[] to a[]\n",tid);
       for (i=0; i<N; i++)
@@ -79,7 +79,7 @@ for(int i = 0;i<N;i++)
   // for(int i = 0; i < N; i++){
   //   printf("(a[%d],b[%d]) = (%f,%f)\n",i,i,a[i],b[i]);
   // }
-  //Verify last elements match
+  //Check last elements match
   printf("(a[%d],b[%d]) = (%f,%f)\n",N-1,N-1,a[N-1],b[N-1]);
 
 }

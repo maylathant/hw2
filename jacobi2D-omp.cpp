@@ -72,7 +72,7 @@ int main(int argc, char* argv[]){
 	//Time results
 	printf("Run time: %f Number of Iterations : %d Dimension : %d\n", t.toc(),i,N);
 
-	// // //Print test results for small N:
+	// //Print test results for small N:
 	// for(int i = 0; i<N; i++){
 	// 	for(int j = 0; j<N; j++){
 	// 		printf("%f ",u_in[i][j]);
