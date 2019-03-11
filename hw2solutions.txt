@@ -26,6 +26,8 @@ Block Size	Average Gflop/s	Average GB/s160	32.95314291	13.18125709100	43.96350
 
 If I parallelize MMult1() with #pragma amp for over the inner two loops, I get a speed up of about 30 Gflops/s and an increase in bandwidth of about 12 GB/s. Overall, the speed is about 80.42 Gflops/s which is more than triple peak performance. I ran my code with 4 amp threads.
 
+Comparing MMult1() with MMult0() (both with openmp), I start to notice better performance with blocking around Dimension > 1000. Here, block size is kept constant at 64.
+
 #########################################################################
 
 Question 3: Solutions directly in code listing
