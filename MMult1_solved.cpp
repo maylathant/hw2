@@ -11,6 +11,7 @@
 // the (m x n) matrix C are stored in the sequence: {C_00, C_10, ..., C_m0,
 // C_01, C_11, ..., C_m1, C_02, ..., C_0n, C_1n, ..., C_mn}
 void MMult0(long m, long n, long k, double *a, double *b, double *c) {
+  #pragma omp parallel for
   for (long j = 0; j < n; j++) {
     for (long p = 0; p < k; p++) {
       for (long i = 0; i < m; i++) {
@@ -87,7 +88,7 @@ int main(int argc, char** argv) {
   const long PLAST = 2000;
   const long PINC = std::max(50/BLOCK_SIZE,1) * BLOCK_SIZE; // multiple of BLOCK_SIZE
 
-  printf(" Dimension       Time    Gflop/s       GB/s        Error\n");
+  printf(" Dimension       Time    Gflop/s       GB/s        Error     Time(Navie)\n");
   for (long p = PFIRST; p < PLAST; p += PINC) {
     long m = p, n = p, k = p;
     long NREPEATS = 1e9/(m*n*k)+1;
@@ -102,11 +103,13 @@ int main(int argc, char** argv) {
     for (long i = 0; i < m*n; i++) c_ref[i] = 0;
     for (long i = 0; i < m*n; i++) c[i] = 0;
 
+    Timer t;
+    t.tic();
     for (long rep = 0; rep < NREPEATS; rep++) { // Compute reference solution
       MMult0(m, n, k, a, b, c_ref);
     }
+    double time0 = t.toc();
 
-    Timer t;
     t.tic();
     for (long rep = 0; rep < NREPEATS; rep++) {
       MMult1(m, n, k, a, b, c);
@@ -118,7 +121,7 @@ int main(int argc, char** argv) {
 
     double max_err = 0;
     for (long i = 0; i < m*n; i++) max_err = std::max(max_err, fabs(c[i] - c_ref[i]));
-    printf(" %10e\n", max_err);
+    printf(" %10e %10f\n", max_err, time0);
 
     aligned_free(a);
     aligned_free(b);
